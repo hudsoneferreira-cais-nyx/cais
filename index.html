@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>cais estúdio — produção audiovisual criativa</title>
+<meta name="description" content="Produção audiovisual criativa. Direção, narrativa e movimento. Volta Redonda / RJ." />
+<link rel="icon" href="./assets/img/favicon.png" />
+<style>
+  @font-face{font-family:'Grytle';src:url('./assets/fonts/Grytle.woff') format('woff');font-weight:100 900;font-style:normal;font-display:swap;}
+  @font-face{font-family:'Gcgatuzo';src:url('./assets/fonts/Gcgatuzo-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap;}
+  @font-face{font-family:'Gcgatuzo';src:url('./assets/fonts/Gcgatuzo-Medium.woff') format('woff');font-weight:500;font-style:normal;font-display:swap;}
+  @font-face{font-family:'Gcgatuzo';src:url('./assets/fonts/Gcgatuzo-Bold.woff') format('woff');font-weight:700;font-style:normal;font-display:swap;}
+
+  :root{
+    --ink:#0C1A15;--graphite:#102420;--smoke:#143029;--line:#22433A;--line-soft:#1A352D;
+    --cream:#E8E0D0;--cream-2:#F3EEE0;--green:#183830;--green-ink:#10231C;
+    --text:#E8E0D0;--muted:#869488;
+    --maxw:1280px;--gut:clamp(20px,5vw,72px);
+    --display:"Grytle", Impact, sans-serif;
+    --body:"Gcgatuzo", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{background:var(--ink);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--cream);color:var(--green-ink)}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut)}
+  .mono{font-family:var(--body);font-weight:500;text-transform:uppercase;letter-spacing:.18em;font-size:.7rem}
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+
+  /* ============ NAV ============ */
+  header.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px var(--gut);transition:background .4s,border-color .4s,padding .4s;border-bottom:1px solid transparent}
+  header.nav.scrolled{background:rgba(12,26,21,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding-top:12px;padding-bottom:12px}
+  .brand{display:flex;align-items:center}
+  .brand-site{display:block;height:22px;aspect-ratio:372 / 70;background:url(./assets/img/logo_site.png) left center/contain no-repeat}
+  .brand-foot{display:block;height:58px;aspect-ratio:290 / 210;background:url(./assets/img/logo_rodape.png) left center/contain no-repeat}
+  nav.menu{display:flex;align-items:center;gap:28px}
+  nav.menu a{font-weight:500;text-transform:uppercase;font-size:.7rem;letter-spacing:.16em;color:var(--muted);transition:color .25s}
+  nav.menu a:hover{color:var(--cream)}
+  .nav-cta{font-weight:600;text-transform:uppercase;font-size:.7rem;letter-spacing:.14em;color:var(--green-ink);background:var(--cream);padding:11px 18px;border-radius:2px;transition:transform .2s,background .2s}
+  .nav-cta:hover{background:var(--cream-2);transform:translateY(-1px)}
+  .burger{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px;padding:6px}
+  .burger span{width:24px;height:2px;background:var(--cream);transition:.3s}
+
+  /* ============ HERO (ref: Abdala Brothers) ============ */
+  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:120px var(--gut) 90px}
+  .hero-media{position:absolute;inset:0;z-index:0}
+  .hero-media video{width:100%;height:100%;object-fit:cover}
+  /* fundo cinematográfico animado (placeholder do vídeo) */
+  .hero-fallback{position:absolute;inset:0;background:
+      radial-gradient(120% 80% at 30% 20%, #1d4438 0%, transparent 55%),
+      radial-gradient(120% 90% at 80% 80%, #14302a 0%, transparent 55%),
+      linear-gradient(180deg,#10231D,#0A1611);
+    animation:panbg 22s ease-in-out infinite alternate}
+  @keyframes panbg{0%{transform:scale(1.06) translate(0,0)}100%{transform:scale(1.14) translate(-2%,-2%)}}
+  .hero-fallback::after{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:screen;
+    background-image:linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:54px 100%}
+  .hero-sweep{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(105deg,transparent 42%,rgba(232,224,208,.07) 50%,transparent 58%);
+    transform:translateX(-65%);animation:sweep 7.5s ease-in-out infinite}
+  @keyframes sweep{0%{transform:translateX(-65%)}100%{transform:translateX(65%)}}
+  @media (prefers-reduced-motion:reduce){.hero-sweep{animation:none;opacity:0}}
+  .hero-overlay{position:absolute;inset:0;z-index:1;background:
+      linear-gradient(180deg, rgba(8,13,10,.90) 0%, rgba(8,13,10,.58) 12%, rgba(8,13,10,.24) 34%, rgba(8,13,10,.34) 62%, rgba(8,13,10,.88) 100%),
+      rgba(8,13,10,.22)}
+  @media (prefers-reduced-motion:reduce){.hero-fallback{animation:none}}
+
+  .hero-inner{position:relative;z-index:3;max-width:1100px}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:12px;color:var(--cream);margin-bottom:30px;opacity:0;animation:fadeUp .8s ease forwards .1s}
+  .hero-eyebrow .tick{width:24px;height:1px;background:var(--cream)}
+  .hero h1{font-family:var(--body);font-weight:400;text-transform:uppercase;letter-spacing:.04em;
+    font-size:clamp(1.8rem,4.6vw,4.3rem);line-height:1.12;color:#D9D3C4;
+    opacity:0;animation:fadeUp .9s ease forwards .25s}
+  .hero h1 b{font-weight:700;color:var(--cream)}
+  .hero-sub{max-width:50ch;margin:26px auto 0;color:#B9B3A4;font-size:1.04rem;opacity:0;animation:fadeUp .9s ease forwards .45s}
+  .hero-cta{margin-top:38px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp .9s ease forwards .6s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+  .btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--cream);color:var(--green-ink);font-weight:600;text-transform:uppercase;font-size:.74rem;letter-spacing:.12em;padding:15px 24px;border-radius:2px;transition:transform .2s,background .2s;cursor:pointer;border:0}
+  .btn-primary:hover{background:var(--cream-2);transform:translateY(-2px)}
+  .btn-ghost{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);color:var(--cream);font-weight:500;text-transform:uppercase;font-size:.74rem;letter-spacing:.12em;padding:15px 22px;border-radius:2px;transition:border-color .2s,color .2s}
+  .btn-ghost:hover{border-color:var(--cream)}
+
+  .scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--cream);opacity:0;animation:fadeUp .9s ease forwards .8s}
+  .scroll-cue .chev{font-size:1.2rem;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+  @media (prefers-reduced-motion:reduce){.scroll-cue .chev{animation:none}}
+  .media-flag{position:absolute;left:var(--gut);bottom:26px;z-index:3;color:var(--muted);font-size:.62rem}
+
+  /* ============ SECTION SHELL ============ */
+  section{position:relative}
+  .block{padding:clamp(70px,10vw,140px) 0}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:50px;flex-wrap:wrap}
+  .sec-head h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(2rem,5vw,3.7rem);line-height:1;letter-spacing:-.005em}
+  .sec-index{color:var(--muted)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  /* ============ MANIFESTO 2 COLUNAS + ATUAÇÃO (ref: Sand) ============ */
+  .twocol{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(40px,7vw,110px)}
+  .mani-text p{color:#CDC7B8;font-size:1.18rem;line-height:1.5;margin-bottom:24px;max-width:46ch}
+  .mani-text .lead{color:var(--cream);font-size:1.3rem}
+  .mani-text .punch{font-family:var(--display);text-transform:uppercase;font-size:clamp(1.5rem,2.6vw,2.1rem);color:var(--cream);line-height:1.05;margin-top:10px;letter-spacing:.005em}
+  .spec-label{color:var(--cream);margin-bottom:30px;display:block}
+  .spec{padding:24px 0;border-top:1px solid var(--line)}
+  .spec:last-child{border-bottom:1px solid var(--line)}
+  .spec h3{font-weight:700;font-size:1.18rem;color:var(--cream);margin-bottom:8px;letter-spacing:.01em}
+  .spec p{color:var(--muted);font-size:.98rem;max-width:42ch}
+
+  /* ============ SELECTED WORK — PAINÉIS EXPANSÍVEIS (ref: Rabbit) ============ */
+  .work-head{display:none}
+  .work-head h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(2.4rem,7vw,5.6rem);line-height:.9;letter-spacing:-.01em}
+  .work-head .idx{color:var(--muted)}
+  .slices{display:flex;gap:6px;height:64vh;min-height:440px;padding:0 6px}
+  .slice{position:relative;flex:1;overflow:hidden;cursor:pointer;border-radius:3px;transition:flex .55s cubic-bezier(.7,0,.2,1);background:#0F2019}
+  .slice:hover,.slice.active{flex:4}
+  .slice-bg{position:absolute;inset:0;background-color:#0F2019;background-size:cover;background-position:center;transition:transform .8s ease}
+  .slice:hover .slice-bg,.slice.active .slice-bg{transform:scale(1.06)}
+  .slice-grain{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,14,11,.85));z-index:1}
+  .slice-cat{display:none}
+  .slice:hover .slice-cat,.slice.active .slice-cat{display:none}
+  .slice-info{position:absolute;z-index:2;left:18px;bottom:18px;right:18px;opacity:0;transform:translateY(10px);transition:.45s .1s}
+  .slice:hover .slice-info,.slice.active .slice-info{opacity:1;transform:none}
+  .slice-info h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.7rem;line-height:.98}
+  .slice-info p{color:var(--muted);font-size:.82rem;margin-top:4px}
+  .slice .play-s{position:absolute;z-index:2;top:18px;right:18px;width:44px;height:44px;border-radius:50%;border:1px solid var(--cream);display:flex;align-items:center;justify-content:center;opacity:0;transition:.45s}
+  .slice:hover .play-s,.slice.active .play-s{opacity:1}
+  .slice .play-s::after{content:"";margin-left:3px;border-style:solid;border-width:6px 0 6px 10px;border-color:transparent transparent transparent var(--cream)}
+  .work-flag{padding:16px var(--gut) 0;color:var(--muted);font-size:.66rem}
+
+  /* ============ SHOWREEL ============ */
+  .reel{position:relative;border:1px solid var(--line);border-radius:4px;overflow:hidden;aspect-ratio:16/8;display:flex;align-items:center;justify-content:center;background:radial-gradient(120% 120% at 50% 30%,#173129,#0E1F1A);cursor:pointer}
+  .reel::before{content:"";position:absolute;inset:0;opacity:.2;background-image:linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px}
+  .reel .play{position:relative;z-index:2;width:92px;height:92px;border-radius:50%;border:1px solid var(--cream);display:flex;align-items:center;justify-content:center;background:rgba(232,224,208,.05);transition:transform .3s,background .3s}
+  .reel:hover .play{transform:scale(1.07);background:rgba(232,224,208,.12)}
+  .reel .play::after{content:"";margin-left:5px;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent var(--cream)}
+  .reel-meta{position:absolute;z-index:2;left:20px;bottom:18px}
+  .reel-meta2{position:absolute;z-index:2;right:20px;top:18px;color:var(--cream)}
+  .reel-note{margin-top:14px;color:var(--muted);font-size:.82rem}
+
+  /* ============ TRAVESSIA / ROTA (assinatura cais) ============ */
+  .travessia{background:var(--graphite);border-top:1px solid var(--line)}
+  .route{position:relative;margin-top:28px;padding-left:34px}
+  .route::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:linear-gradient(var(--cream),var(--line))}
+  .stop{position:relative;padding:22px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:130px 1fr;gap:24px;align-items:baseline}
+  .stop:last-child{border-bottom:0}
+  .stop::before{content:"";position:absolute;left:-31px;top:30px;width:15px;height:15px;background:var(--graphite);border:2px solid var(--cream);transform:rotate(45deg)}
+  .stop .snum{font-weight:600;color:var(--cream);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+  .stop h4{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.45rem;line-height:1}
+  .stop p{grid-column:2;color:var(--muted);font-size:.93rem;margin-top:6px}
+
+  /* ============ POR QUE — TÍTULO OUTLINE (ref: Sand) ============ */
+  .why{position:relative;overflow:hidden}
+  .why-outline{font-family:var(--display);text-transform:uppercase;font-size:clamp(1.4rem,8vw,6.5rem);line-height:.82;letter-spacing:-.01em;
+    color:transparent;-webkit-text-stroke:1.3px var(--cream);text-stroke:1.3px var(--cream);
+    white-space:nowrap;opacity:.5;margin-bottom:8px}
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,70px);margin-top:30px}
+  .pillar{max-width:48ch}
+  .pillar h3{font-weight:700;font-size:1.18rem;color:var(--cream);margin-bottom:10px}
+  .pillar p{color:#C8C2B2;font-size:1.02rem}
+  .pillar .pl{color:var(--muted);font-size:.95rem;margin-top:8px}
+
+  /* ============ DIREÇÃO ============ */
+  .director{display:grid;grid-template-columns:.85fr 1.15fr;gap:46px;align-items:center}
+  .director-photo{position:relative;aspect-ratio:4/5;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#0E1F1A url(./assets/img/hudson-ferreira.jpg) center top/cover;display:flex;align-items:flex-end;padding:18px}
+  .ph-flag{font-family:var(--body);font-weight:600;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green-ink);background:var(--muted);padding:3px 7px;border-radius:2px;align-self:flex-start;position:relative;z-index:2}
+  .director .mono{color:var(--cream)}
+  .director h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(2rem,4.5vw,3.4rem);line-height:1;margin:14px 0 20px}
+  .director p{color:#C8C2B2;max-width:50ch;margin-bottom:16px}
+  .director .sig{font-weight:500;font-size:.74rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-top:24px}
+
+  /* ============ FORM "VAMOS CONVERSAR" (ref: Sand) ============ */
+  .talk{border-top:1px solid var(--line)}
+  .talk-title{font-family:var(--display);text-transform:uppercase;font-size:clamp(3.4rem,15vw,12rem);line-height:.86;letter-spacing:-.01em;color:var(--cream);margin-bottom:48px}
+  .talk-title .it{display:inline-block;transform:skewX(-11deg);transform-origin:left;color:var(--cream)}
+  .form{max-width:880px}
+  .field{position:relative;margin-bottom:6px}
+  .field input,.field textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--cream);font-family:var(--body);font-size:1.12rem;padding:22px 4px;transition:border-color .3s}
+  .field textarea{min-height:120px;resize:vertical}
+  .field input::placeholder,.field textarea::placeholder{color:var(--muted)}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--cream)}
+  .form .send{margin-top:30px}
+  .form-note{color:var(--muted);font-size:.78rem;margin-top:16px}
+
+  /* ============ FOOTER ============ */
+  footer.site{border-top:1px solid var(--line);padding:60px 0 38px}
+  .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:46px}
+  .foot-brand p{color:var(--muted);max-width:34ch;margin-top:16px;font-size:.93rem}
+  .foot-cols{display:flex;gap:60px;flex-wrap:wrap}
+  .foot-col h5{font-weight:600;text-transform:uppercase;letter-spacing:.16em;font-size:.68rem;color:var(--muted);margin-bottom:16px}
+  .foot-col a{display:block;color:var(--cream);margin-bottom:10px;font-size:.93rem;transition:opacity .2s}
+  .foot-col a:hover{opacity:.7}
+  .foot-bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:24px;color:var(--muted)}
+  .foot-bottom .mono{font-size:.64rem}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:860px){
+    nav.menu{position:fixed;inset:0 0 0 auto;width:min(80vw,320px);background:var(--graphite);border-left:1px solid var(--line);flex-direction:column;align-items:flex-start;justify-content:center;gap:26px;padding:0 36px;transform:translateX(100%);transition:transform .35s;z-index:90}
+    nav.menu.open{transform:none}
+    nav.menu a{font-size:.86rem}
+    .nav-cta.in-menu{display:inline-flex}.nav-cta.in-bar{display:none}
+    .burger{display:flex;z-index:95}
+    .twocol{grid-template-columns:1fr;gap:48px}
+    .slices{height:54vh;min-height:380px;gap:4px}
+    .slice-info h3{font-size:1.3rem}
+    .slice-info p{font-size:.76rem}
+    .why-grid{grid-template-columns:1fr;gap:32px}
+    .director{grid-template-columns:1fr;gap:28px}.director-photo{max-width:300px}
+    .stop{grid-template-columns:1fr;gap:4px}.stop p{grid-column:1}
+  }
+  @media (min-width:861px){.nav-cta.in-menu{display:none}}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a href="#top" class="brand" aria-label="cais estúdio"><span class="brand-site" role="img" aria-label="cais estúdio"></span></a>
+  <nav class="menu" id="menu">
+    <a href="#sobre">Sobre</a><a href="#trabalhos">Trabalhos</a><a href="#travessia">Processo</a><a href="#direcao">Direção</a><a href="#contato">Contato</a>
+    <a href="#contato" class="nav-cta in-menu">Orçar projeto</a>
+  </nav>
+  <a href="#contato" class="nav-cta in-bar">Orçar projeto</a>
+  <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+
+<!-- HERO — ref: Abdala Brothers (vídeo fullscreen + headline central bold-seletivo + scroll cue) -->
+<section class="hero" id="top">
+  <div class="hero-media">
+    <video autoplay muted loop playsinline
+           style="position:absolute;inset:0;width:100%;height:100%;
+                  object-fit:cover;z-index:0;">
+      <source src="./assets/video/cais_30s_web.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-sweep"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <h1>Entre a ideia e o movimento,<br>existe um <b>cais</b></h1>
+    <p class="hero-sub">Produção audiovisual para empresas e instituições que precisam transformar ideias em vídeo — com direção, narrativa e movimento.</p>
+    <div class="hero-cta">
+      <a href="#contato" class="btn-primary">Construir a travessia</a>
+      <a href="#trabalhos" class="btn-ghost">Ver trabalhos</a>
+    </div>
+  </div>
+  <a href="#sobre" class="scroll-cue mono">Trabalhos<span class="chev">⌄</span></a>
+</section>
+
+<!-- SOBRE — ref: Sand (manifesto 2 colunas + "atuamos em" 3 blocos) -->
+<section class="block" id="sobre">
+  <div class="wrap reveal">
+    <div class="twocol">
+      <div class="mani-text">
+        <p class="lead">A cais nasce no lugar de passagem. Onde a ideia encontra direção e a criatividade deixa de ser intenção para virar presença.</p>
+        <p>Trabalhamos para que o audiovisual faça um projeto sair do óbvio. Não como fornecedor que apenas executa, mas como direção que conduz a travessia da intenção à imagem.</p>
+        <p class="punch">Criatividade exige risco.<br>Direção transforma risco em linguagem.</p>
+      </div>
+      <div>
+        <span class="spec-label mono">Atuamos em</span>
+        <div class="spec"><h3>Filmes institucionais &amp; de marca</h3><p>Apresentar empresas, instituições, projetos e iniciativas. Manifestos e narrativas que traduzem posicionamento e momento de marca.</p></div>
+        <div class="spec"><h3>Conteúdo audiovisual</h3><p>Séries de vídeos, podcasts e cortes com direção, narrativa e acabamento — produção com cadência e consistência.</p></div>
+        <div class="spec"><h3>Captação &amp; finalização</h3><p>Captação, edição, finalização e versões, com direção criativa e escopo bem definidos.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRABALHOS — ref: Rabbit (painéis verticais que expandem no hover) -->
+<section id="trabalhos" style="padding:clamp(40px,7vw,90px) 0">
+  <div class="work-head">
+    <h2>Trabalhos</h2>
+    <span class="idx mono">[ Selecionados ]</span>
+  </div>
+  <div class="slices reveal">
+    <a class="slice" href="https://vimeo.com/1204146402" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-1.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Manifesto</span><div class="slice-info"><h3>Manifesto</h3><p>Narrativa e direção cinematográfica, edição</p></div></a>
+    <a class="slice" href="https://vimeo.com/1204167087" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-2.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Comercial</span><div class="slice-info"><h3>Vestibular</h3><p>Direção, finalização e pós</p></div></a>
+    <a class="slice" href="https://vimeo.com/1204146528" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-3.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Depoimento institucional</span><div class="slice-info"><h3>Institucional</h3><p>Conceito, direção, produção e finalização</p></div></a>
+    <a class="slice" href="https://vimeo.com/1204146458" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-4.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Comercial</span><div class="slice-info"><h3>Vestibular</h3><p>Conceito, captação e motion</p></div></a>
+    <a class="slice" href="https://vimeo.com/1204146718" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-5.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Educacional</span><div class="slice-info"><h3>Conteúdo educacional</h3><p>Captação, direção e edição</p></div></a>
+    <a class="slice" href="https://vimeo.com/1204146457" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-6.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Comercial</span><div class="slice-info"><h3>Institucional</h3><p>Direção, edição, roteiro</p></div></a>
+    <a class="slice" href="https://vimeo.com/1204146779" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-7.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Institucional</span><div class="slice-info"><h3>Informe institucional</h3><p>Captação, direção e edição</p></div></a>
+  </div>
+</section>
+
+<!-- SHOWREEL -->
+<section class="block">
+  <div class="wrap reveal">
+    <div class="sec-head"><h2>Showreel</h2><span class="sec-index mono">[ Reel 2026 ]</span></div>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:1px solid var(--line);border-radius:4px;">
+      <iframe src="URL_DO_SHOWREEL"
+        style="position:absolute;inset:0;width:100%;height:100%;border:0;"
+        allow="autoplay; fullscreen" allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- TRAVESSIA -->
+<section class="block travessia" id="travessia">
+  <div class="wrap reveal">
+    <div class="sec-head"><h2>A travessia</h2><span class="sec-index mono">[ Da intenção à entrega ]</span></div>
+    <div class="route">
+      <div class="stop"><span class="snum">01 · Partida</span><h4>Diagnóstico</h4><p>Objetivo, público, contexto, prazo e referências. Onde a ideia ainda está solta.</p></div>
+      <div class="stop"><span class="snum">02</span><h4>Direção criativa</h4><p>Conceito, tom, linguagem, estética e narrativa. O risco ganha direção.</p></div>
+      <div class="stop"><span class="snum">03</span><h4>Produção</h4><p>Pré-produção, captação e execução conforme o escopo fechado.</p></div>
+      <div class="stop"><span class="snum">04</span><h4>Pós-produção</h4><p>Edição, finalização, versões e ajustes. A imagem encontra forma e ritmo.</p></div>
+      <div class="stop"><span class="snum">05 · Chegada</span><h4>Entrega</h4><p>Arquivos organizados, aprovações registradas e o projeto pronto para sair do lugar.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUE A CAIS — ref: Sand (título outline) -->
+<section class="block why" id="porque">
+  <div class="wrap reveal">
+    <div class="why-outline">Por que a cais</div>
+    <div class="why-grid">
+      <div class="pillar"><h3>Criatividade com direção</h3><p>Assumimos risco criativo, mas sempre com intenção e leitura de contexto.</p><p class="pl">A ideia chega ao fim com clareza do que precisa comunicar — não no improviso.</p></div>
+      <div class="pillar"><h3>Audiovisual como linguagem</h3><p>Tratamos vídeo como narrativa e movimento, não apenas como técnica.</p><p class="pl">Cada corte, luz e ritmo comunica. O craft é a nossa ferramenta de resultado.</p></div>
+      <div class="pillar"><h3>Projeto com escopo claro</h3><p>Começo, meio e fim definidos antes de começar.</p><p class="pl">Você contrata uma entrega pensada — não uma agência fixa nem gestão contínua.</p></div>
+      <div class="pillar"><h3>Presença visual</h3><p>Tudo que produzimos eleva a percepção da marca.</p><p class="pl">A comunicação passa a parecer mais forte, intencional e resolvida.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DIREÇÃO -->
+<section class="block" id="direcao" style="padding-top:0">
+  <div class="wrap reveal">
+    <div class="director">
+      <div class="director-photo"></div>
+      <div>
+        <span class="mono">Direção criativa</span>
+        <h2>Hudson<br>Ferreira</h2>
+        <p>Fundador e diretor criativo da cais. Repertório em direção e produção audiovisual aplicado a projetos reais — da concepção à entrega final.</p>
+        <p>A cais organiza a entrega e constrói o projeto. Ferreira garante a leitura criativa e a direção que faz cada travessia sair do óbvio.</p>
+        <div class="sig">— Volta Redonda · Sul Fluminense / RJ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO — ref: Sand (título display roman+itálico + formulário) -->
+<section class="block talk" id="contato">
+  <div class="wrap reveal">
+    <h2 class="talk-title">Vamos <span class="it">conversar</span></h2>
+    <div class="form">
+      <div class="field"><input id="f-nome" type="text" placeholder="Seu nome" /></div>
+      <div class="field"><input id="f-email" type="email" placeholder="E-mail" /></div>
+      <div class="field"><input id="f-tel" type="tel" placeholder="DDD + Telefone" /></div>
+      <div class="field"><input id="f-empresa" type="text" placeholder="Sua empresa" /></div>
+      <div class="field"><textarea id="f-msg" placeholder="Conta sobre seu projeto"></textarea></div>
+      <div class="send" style="display:flex;gap:14px;flex-wrap:wrap">
+        <button type="button" class="btn-primary" id="enviar">Enviar pelo WhatsApp →</button>
+        <a href="mailto:caisestd@gmail.com" class="btn-ghost">Ou envie um e-mail →</a>
+      </div>
+      <p class="form-note">Conta a ideia, o prazo e o contexto. A gente responde com direção e escopo.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="brand"><span class="brand-foot" role="img" aria-label="cais estúdio"></span></div>
+        <p>Produção audiovisual criativa. Direção, narrativa e movimento para ideias que precisam sair do lugar.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h5>Navegar</h5><a href="#sobre">Sobre</a><a href="#trabalhos">Trabalhos</a><a href="#travessia">Processo</a><a href="#direcao">Direção</a></div>
+        <div class="foot-col"><h5>Contato</h5><a href="https://wa.me/5524999813004">WhatsApp</a><a href="mailto:caisestd@gmail.com">E-mail</a><!-- <a href="#">Instagram</a> --></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="mono">© <span id="year"></span> cais — todos os direitos reservados</span>
+      <span class="mono">Entre a ideia e o movimento, existe um cais</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const nav=document.getElementById('nav');
+  const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>24);
+  onScroll();addEventListener('scroll',onScroll,{passive:true});
+  const burger=document.getElementById('burger'),menu=document.getElementById('menu');
+  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o);});
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.setAttribute('aria-expanded',false);}));
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:0.1,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  // fallback: garante que nada fique invisível se o observer não disparar
+  setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>el.classList.add('in')),2200);
+
+  // PAINÉIS (ref: Rabbit) — ciclo automático em qualquer tela e toque; o hover assume no desktop
+  const slices=[...document.querySelectorAll('.slice')];
+  let si=0,timer=null;
+  const setActive=i=>{slices.forEach((s,k)=>s.classList.toggle('active',k===i));si=i;};
+  const play=()=>{if(timer)return;timer=setInterval(()=>setActive((si+1)%slices.length),2400);};
+  const stop=()=>{clearInterval(timer);timer=null;};
+  if(slices.length){
+    setActive(0); play();
+    const box=document.querySelector('.slices');
+    box.addEventListener('mouseenter',stop);
+    box.addEventListener('mouseleave',play);
+    slices.forEach((s,i)=>{
+      s.addEventListener('mouseenter',()=>setActive(i));
+      s.addEventListener('click',()=>{stop();setActive(i);setTimeout(play,4500);});
+    });
+  }
+  // form -> WhatsApp
+  document.getElementById('enviar').addEventListener('click',()=>{
+    const v=id=>document.getElementById(id).value.trim();
+    const txt=`Olá! Sou ${v('f-nome')||'—'}`+(v('f-empresa')?` (${v('f-empresa')})`:'')+
+      `.%0AContato: ${v('f-tel')||'—'} · ${v('f-email')||'—'}`+
+      `%0A%0AProjeto: ${v('f-msg')||'—'}`;
+    window.open(`https://wa.me/5524999813004?text=${txt}`,'_blank');
+  });
+
+  // TÍTULO OUTLINE — ajusta para caber na largura, só DEPOIS da fonte Grytle carregar (senão estoura)
+  function fitOutline(){
+    var el=document.querySelector('.why-outline');
+    if(!el) return;
+    el.style.whiteSpace='nowrap';
+    el.style.fontSize='200px';
+    var avail=el.clientWidth, w=el.scrollWidth;
+    if(!w||!avail){ el.style.fontSize=''; return; }
+    var size=Math.floor(200*avail/w*0.93);            // 7% de folga
+    el.style.fontSize=Math.max(15,Math.min(size,200))+'px';
+  }
+  ['load','resize','orientationchange'].forEach(function(ev){addEventListener(ev,fitOutline);});
+  if(document.fonts){
+    try{ document.fonts.load('900 100px "Grytle"').then(fitOutline,fitOutline); }catch(e){}
+    if(document.fonts.ready){ document.fonts.ready.then(fitOutline); }
+  }
+  [80,300,700,1400].forEach(function(t){setTimeout(fitOutline,t);});
+  fitOutline();
+</script>
+</body>
+</html>

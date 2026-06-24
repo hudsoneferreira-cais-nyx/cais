@@ -1,0 +1,11 @@
+# dependências / build
+node_modules/
+dist/
+# deploy
+.vercel/
+.netlify/
+# sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
