@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ffmpeg -version)",
+      "Bash(which ffmpeg *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(python3 -c \"import os; print\\(os.getcwd\\(\\)\\)\")",
+      "mcp__Claude_in_Chrome__navigate",
+      "mcp__Claude_in_Chrome__javascript_tool",
+      "Bash(ls /opt/homebrew/bin/brew 2>/dev/null || ls /usr/local/bin/brew 2>/dev/null || echo \"homebrew não encontrado\")",
+      "Bash(avconvert --help)",
+      "Bash(avconvert --preset PresetH264Highest --source /Users/hudsonferreira/Downloads/cais-site/assets/video/cais_30s.mov --output /Users/hudsonferreira/Downloads/cais-site/assets/video/cais_30s.mp4)",
+      "Bash(sleep 1 && cat /tmp/cais-server.log)",
+      "Bash(python3 -m http.server 9000)",
+      "Bash(curl -s http://localhost:9000/)",
+      "Bash(curl -I -H \"Range: bytes=0-1023\" http://localhost:9000/assets/video/cais_30s_720.mp4)",
+      "Bash(php --version)",
+      "Bash(ruby --version)",
+      "Bash(touch /usr/local/bin/.test)",
+      "Bash(rm /usr/local/bin/.test)"
+    ]
+  }
+}
