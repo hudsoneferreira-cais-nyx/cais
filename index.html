@@ -212,6 +212,17 @@
     .stop{grid-template-columns:1fr;gap:4px}.stop p{grid-column:1}
   }
   @media (min-width:861px){.nav-cta.in-menu{display:none}}
+
+  /* ── modal de vídeo ── */
+  .vmodal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+    background:rgba(4,8,6,.88);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
+  .vmodal.open{opacity:1;pointer-events:all}
+  .vmodal-inner{position:relative;width:min(90vw,1080px);aspect-ratio:16/9}
+  .vmodal-inner iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:4px}
+  .vmodal-close{position:absolute;top:-40px;right:0;background:none;border:none;color:#fff;
+    font-size:1.6rem;cursor:pointer;line-height:1;opacity:.7;transition:.2s;font-family:var(--body)}
+  .vmodal-close:hover{opacity:1}
+  .slice{cursor:pointer}
 </style>
 </head>
 <body>
@@ -434,6 +445,48 @@
   }
   [80,300,700,1400].forEach(function(t){setTimeout(fitOutline,t);});
   fitOutline();
+</script>
+
+<!-- modal de vídeo -->
+<div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-label="Player de vídeo">
+  <div class="vmodal-inner">
+    <button class="vmodal-close" id="vmodal-close" aria-label="Fechar">✕</button>
+    <iframe id="vmodal-frame" src="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+(function(){
+  var vimeoIds=['1204146402','1204167087','1204146528','1204146458','1204146718','1204146457','1204146779'];
+  var modal=document.getElementById('vmodal');
+  var frame=document.getElementById('vmodal-frame');
+  var btnClose=document.getElementById('vmodal-close');
+
+  function openModal(id){
+    frame.src='https://player.vimeo.com/video/'+id+'?autoplay=1&color=c9f227&title=0&byline=0&portrait=0';
+    modal.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    frame.src='';
+    document.body.style.overflow='';
+  }
+
+  // clique nos painéis — abre o modal; o href continua valendo como fallback (botão direito / cmd+clique)
+  document.querySelectorAll('.slice').forEach(function(el,i){
+    el.addEventListener('click',function(e){
+      if(e.metaKey||e.ctrlKey||e.shiftKey||e.button===1) return;
+      e.preventDefault();
+      openModal(vimeoIds[i]);
+    });
+  });
+
+  // fechar
+  btnClose.addEventListener('click',closeModal);
+  modal.addEventListener('click',function(e){ if(e.target===modal) closeModal(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
+})();
 </script>
 </body>
 </html>
