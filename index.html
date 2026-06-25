@@ -83,7 +83,7 @@
   .btn-ghost{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);color:var(--cream);font-weight:500;text-transform:uppercase;font-size:.74rem;letter-spacing:.12em;padding:15px 22px;border-radius:2px;transition:border-color .2s,color .2s}
   .btn-ghost:hover{border-color:var(--cream)}
 
-  .scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--cream);opacity:0;animation:fadeUp .9s ease forwards .8s}
+  .scroll-cue{position:absolute;bottom:30px;left:0;right:0;width:max-content;margin:0 auto;z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--cream);opacity:0;animation:fadeUp .9s ease forwards .8s}
   .scroll-cue .chev{font-size:1.2rem;animation:bob 1.8s ease-in-out infinite}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
   @media (prefers-reduced-motion:reduce){.scroll-cue .chev{animation:none}}
