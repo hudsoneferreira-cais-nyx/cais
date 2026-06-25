@@ -117,6 +117,17 @@
   .slices{display:flex;gap:6px;height:64vh;min-height:440px;padding:0 6px}
   .slice{position:relative;flex:1;overflow:hidden;cursor:pointer;border-radius:3px;transition:flex .55s cubic-bezier(.7,0,.2,1);background:#0F2019}
   .slice:hover,.slice.active{flex:4}
+  .slice.playing{flex:10;cursor:default}
+  .slices.has-playing .slice:not(.playing){flex:.35 !important;pointer-events:none;transition:flex .55s cubic-bezier(.7,0,.2,1),filter .4s;filter:brightness(.55) saturate(.7)}
+  .slice-video{position:absolute;inset:0;z-index:5;background:#000;opacity:0;pointer-events:none;transition:opacity .3s}
+  .slice.playing .slice-video{opacity:1;pointer-events:all}
+  .slice-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .slice-close{position:absolute;z-index:6;top:18px;right:18px;width:36px;height:36px;border-radius:50%;
+    border:1px solid rgba(232,224,208,.5);background:rgba(8,14,11,.55);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;
+    transition:.3s;font-size:1.1rem;line-height:1}
+  .slice.playing .slice-close{opacity:1;pointer-events:all}
+  .slice.playing .slice-close:hover{background:rgba(8,14,11,.85)}
   .slice-bg{position:absolute;inset:0;background-color:#0F2019;background-size:cover;background-position:center;transition:transform .8s ease}
   .slice:hover .slice-bg,.slice.active .slice-bg{transform:scale(1.06)}
   .slice-grain{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,14,11,.85));z-index:1}
@@ -212,17 +223,6 @@
     .stop{grid-template-columns:1fr;gap:4px}.stop p{grid-column:1}
   }
   @media (min-width:861px){.nav-cta.in-menu{display:none}}
-
-  /* ── modal de vídeo ── */
-  .vmodal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
-    background:rgba(4,8,6,.88);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
-  .vmodal.open{opacity:1;pointer-events:all}
-  .vmodal-inner{position:relative;width:min(90vw,1080px);aspect-ratio:16/9}
-  .vmodal-inner iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:4px}
-  .vmodal-close{position:absolute;top:-40px;right:0;background:none;border:none;color:#fff;
-    font-size:1.6rem;cursor:pointer;line-height:1;opacity:.7;transition:.2s;font-family:var(--body)}
-  .vmodal-close:hover{opacity:1}
-  .slice{cursor:pointer}
 </style>
 </head>
 <body>
@@ -285,13 +285,13 @@
     <span class="idx mono">[ Selecionados ]</span>
   </div>
   <div class="slices reveal">
-    <a class="slice" href="https://vimeo.com/1204146402" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-1.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Manifesto</span><div class="slice-info"><h3>Manifesto</h3><p>Narrativa e direção cinematográfica, edição</p></div></a>
-    <a class="slice" href="https://vimeo.com/1204167087" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-2.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Comercial</span><div class="slice-info"><h3>Vestibular</h3><p>Direção, finalização e pós</p></div></a>
-    <a class="slice" href="https://vimeo.com/1204146528" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-3.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Depoimento institucional</span><div class="slice-info"><h3>Institucional</h3><p>Conceito, direção, produção e finalização</p></div></a>
-    <a class="slice" href="https://vimeo.com/1204146458" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-4.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Comercial</span><div class="slice-info"><h3>Vestibular</h3><p>Conceito, captação e motion</p></div></a>
-    <a class="slice" href="https://vimeo.com/1204146718" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-5.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Educacional</span><div class="slice-info"><h3>Conteúdo educacional</h3><p>Captação, direção e edição</p></div></a>
-    <a class="slice" href="https://vimeo.com/1204146457" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-6.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Comercial</span><div class="slice-info"><h3>Institucional</h3><p>Direção, edição, roteiro</p></div></a>
-    <a class="slice" href="https://vimeo.com/1204146779" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-7.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Institucional</span><div class="slice-info"><h3>Informe institucional</h3><p>Captação, direção e edição</p></div></a>
+    <a class="slice" href="https://vimeo.com/1204146402" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-1.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Manifesto</span><div class="slice-info"><h3>Manifesto</h3><p>Narrativa e direção cinematográfica, edição</p></div><div class="slice-video"></div><button class="slice-close" aria-label="Fechar vídeo" type="button">✕</button></a>
+    <a class="slice" href="https://vimeo.com/1204167087" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-2.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Comercial</span><div class="slice-info"><h3>Vestibular</h3><p>Direção, finalização e pós</p></div><div class="slice-video"></div><button class="slice-close" aria-label="Fechar vídeo" type="button">✕</button></a>
+    <a class="slice" href="https://vimeo.com/1204146528" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-3.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Depoimento Institucional</span><div class="slice-info"><h3>Depoimento Institucional</h3><p>Conceito, direção, produção e finalização</p></div><div class="slice-video"></div><button class="slice-close" aria-label="Fechar vídeo" type="button">✕</button></a>
+    <a class="slice" href="https://vimeo.com/1204146458" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-4.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Comercial</span><div class="slice-info"><h3>Vestibular</h3><p>Conceito, captação e motion</p></div><div class="slice-video"></div><button class="slice-close" aria-label="Fechar vídeo" type="button">✕</button></a>
+    <a class="slice" href="https://vimeo.com/1204146718" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-5.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Educacional</span><div class="slice-info"><h3>Conteúdo educacional</h3><p>Captação, direção e edição</p></div><div class="slice-video"></div><button class="slice-close" aria-label="Fechar vídeo" type="button">✕</button></a>
+    <a class="slice" href="https://vimeo.com/1204146457" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-6.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Comercial</span><div class="slice-info"><h3>Institucional</h3><p>Direção, edição, roteiro</p></div><div class="slice-video"></div><button class="slice-close" aria-label="Fechar vídeo" type="button">✕</button></a>
+    <a class="slice" href="https://vimeo.com/1204146779" target="_blank" rel="noopener"><div class="slice-bg" style="background-image:url(./assets/img/case-7.jpg)"></div><div class="slice-grain"></div><span class="play-s"></span><span class="slice-cat">Institucional</span><div class="slice-info"><h3>Informe institucional</h3><p>Captação, direção e edição</p></div><div class="slice-video"></div><button class="slice-close" aria-label="Fechar vídeo" type="button">✕</button></a>
   </div>
 </section>
 
@@ -403,20 +403,53 @@
   setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>el.classList.add('in')),2200);
 
   // PAINÉIS (ref: Rabbit) — ciclo automático em qualquer tela e toque; o hover assume no desktop
+  const vimeoIds=['1204146402','1204167087','1204146528','1204146458','1204146718','1204146457','1204146779'];
   const slices=[...document.querySelectorAll('.slice')];
-  let si=0,timer=null;
+  const box=document.querySelector('.slices');
+  let si=0,timer=null,playingIndex=null;
   const setActive=i=>{slices.forEach((s,k)=>s.classList.toggle('active',k===i));si=i;};
-  const play=()=>{if(timer)return;timer=setInterval(()=>setActive((si+1)%slices.length),2400);};
+  const play=()=>{if(timer||playingIndex!==null)return;timer=setInterval(()=>setActive((si+1)%slices.length),2400);};
   const stop=()=>{clearInterval(timer);timer=null;};
+
+  // toca o vídeo dentro do próprio painel — ele expande e espreme os outros, que ficam estáticos
+  const startPlay=i=>{
+    stop();
+    playingIndex=i;
+    const s=slices[i];
+    s.querySelector('.slice-video').innerHTML=
+      '<iframe src="https://player.vimeo.com/video/'+vimeoIds[i]+'?autoplay=1&color=e8e0d0&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+    s.classList.add('playing');
+    setActive(i);
+    box.classList.add('has-playing');
+  };
+  const stopPlay=()=>{
+    if(playingIndex===null)return;
+    const s=slices[playingIndex];
+    s.classList.remove('playing');
+    s.querySelector('.slice-video').innerHTML='';
+    box.classList.remove('has-playing');
+    playingIndex=null;
+    play();
+  };
+
   if(slices.length){
     setActive(0); play();
-    const box=document.querySelector('.slices');
-    box.addEventListener('mouseenter',stop);
-    box.addEventListener('mouseleave',play);
+    box.addEventListener('mouseenter',()=>{ if(playingIndex===null) stop(); });
+    box.addEventListener('mouseleave',()=>{ if(playingIndex===null) play(); });
     slices.forEach((s,i)=>{
-      s.addEventListener('mouseenter',()=>setActive(i));
-      s.addEventListener('click',()=>{stop();setActive(i);setTimeout(play,4500);});
+      s.addEventListener('mouseenter',()=>{ if(playingIndex===null) setActive(i); });
+      s.addEventListener('click',(e)=>{
+        if(playingIndex!==null) return;               // já tem vídeo tocando, painéis travados
+        if(e.metaKey||e.ctrlKey||e.shiftKey||e.button===1) return; // deixa abrir em nova aba
+        e.preventDefault();
+        startPlay(i);
+      });
+      s.querySelector('.slice-close').addEventListener('click',(e)=>{
+        e.preventDefault(); e.stopPropagation();
+        stopPlay();
+      });
     });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') stopPlay(); });
   }
   // form -> WhatsApp
   document.getElementById('enviar').addEventListener('click',()=>{
@@ -447,46 +480,5 @@
   fitOutline();
 </script>
 
-<!-- modal de vídeo -->
-<div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-label="Player de vídeo">
-  <div class="vmodal-inner">
-    <button class="vmodal-close" id="vmodal-close" aria-label="Fechar">✕</button>
-    <iframe id="vmodal-frame" src="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-  </div>
-</div>
-
-<script>
-(function(){
-  var vimeoIds=['1204146402','1204167087','1204146528','1204146458','1204146718','1204146457','1204146779'];
-  var modal=document.getElementById('vmodal');
-  var frame=document.getElementById('vmodal-frame');
-  var btnClose=document.getElementById('vmodal-close');
-
-  function openModal(id){
-    frame.src='https://player.vimeo.com/video/'+id+'?autoplay=1&color=c9f227&title=0&byline=0&portrait=0';
-    modal.classList.add('open');
-    document.body.style.overflow='hidden';
-  }
-  function closeModal(){
-    modal.classList.remove('open');
-    frame.src='';
-    document.body.style.overflow='';
-  }
-
-  // clique nos painéis — abre o modal; o href continua valendo como fallback (botão direito / cmd+clique)
-  document.querySelectorAll('.slice').forEach(function(el,i){
-    el.addEventListener('click',function(e){
-      if(e.metaKey||e.ctrlKey||e.shiftKey||e.button===1) return;
-      e.preventDefault();
-      openModal(vimeoIds[i]);
-    });
-  });
-
-  // fechar
-  btnClose.addEventListener('click',closeModal);
-  modal.addEventListener('click',function(e){ if(e.target===modal) closeModal(); });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
-})();
-</script>
 </body>
 </html>
