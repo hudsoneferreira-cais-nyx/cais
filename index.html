@@ -54,8 +54,8 @@
   @keyframes sweep{0%{transform:translateX(-65%)}100%{transform:translateX(65%)}}
   @media (prefers-reduced-motion:reduce){.hero-sweep{animation:none;opacity:0}}
   .hero-overlay{position:absolute;inset:0;z-index:1;background:
-      linear-gradient(180deg, rgba(8,13,10,.90) 0%, rgba(8,13,10,.58) 12%, rgba(8,13,10,.24) 34%, rgba(8,13,10,.34) 62%, rgba(8,13,10,.88) 100%),
-      rgba(8,13,10,.22)}
+      linear-gradient(180deg, rgba(8,13,10,.90) 0%, rgba(8,13,10,.55) 12%, rgba(8,13,10,.18) 34%, rgba(8,13,10,.30) 62%, rgba(8,13,10,.88) 100%),
+      rgba(24,56,48,.38)}
   .hero-inner{position:relative;z-index:3;max-width:1100px}
   .hero-eyebrow{display:inline-flex;align-items:center;gap:12px;color:var(--cream);margin-bottom:30px;opacity:0;animation:fadeUp .8s ease forwards .1s}
   .hero-eyebrow .tick{width:24px;height:1px;background:var(--cream)}
@@ -385,8 +385,16 @@
   const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>24);
   onScroll();addEventListener('scroll',onScroll,{passive:true});
   const burger=document.getElementById('burger'),menu=document.getElementById('menu');
-  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o);});
-  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.setAttribute('aria-expanded',false);}));
+  const setMenuOpen=o=>{
+    menu.classList.toggle('open',o);
+    burger.setAttribute('aria-expanded',o);
+    // remove backdrop-filter quando menu abre — evita stacking context que prende o painel
+    nav.style.backdropFilter=o?'none':'';
+    nav.style.webkitBackdropFilter=o?'none':'';
+    nav.style.background=o?'var(--graphite)':'';
+  };
+  burger.addEventListener('click',()=>setMenuOpen(!menu.classList.contains('open')));
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenuOpen(false)));
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:0.1,rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   const ioStop=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ioStop.unobserve(e.target);}})},{threshold:0.2,rootMargin:'0px 0px -10% 0px'});
